@@ -1,32 +1,33 @@
-package com.proacademic.Dominio.Modelo;
+package com.proacademic.Infraestructura.Web.DTO;
 
+import com.proacademic.Dominio.Modelo.Usuario;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 
-public class Usuario {
+@Schema(description = "Respuesta con datos del usuario (sin contraseña)")
+
+public class UsuarioRespuesta {
 
     private Long id;
     private String nombre;
     private String apellido;
     private String correo;
     private String usuario;
-    private String contrasena;
     private String rol;
     private LocalDateTime fechaCreacion;
 
-    public Usuario() {}
+    public UsuarioRespuesta() {}
 
-    public Usuario(Long id, String nombre, String apellido,
-                   String correo, String usuario,
-                   String contrasena, String rol,
-                   LocalDateTime fechaCreacion) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = correo;
-        this.usuario = usuario;
-        this.contrasena = contrasena;
-        this.rol = rol;
-        this.fechaCreacion = fechaCreacion;
+    public static UsuarioRespuesta fromDomain(Usuario u) {
+        UsuarioRespuesta r = new UsuarioRespuesta();
+        r.setId(u.getId());
+        r.setNombre(u.getNombre());
+        r.setApellido(u.getApellido());
+        r.setCorreo(u.getCorreo());
+        r.setUsuario(u.getUsuario());
+        r.setRol(u.getRol());
+        r.setFechaCreacion(u.getFechaCreacion());
+        return r;
     }
 
     public Long getId() { return id; }
@@ -43,9 +44,6 @@ public class Usuario {
 
     public String getUsuario() { return usuario; }
     public void setUsuario(String usuario) { this.usuario = usuario; }
-
-    public String getContrasena() { return contrasena; }
-    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
 
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  # ── BACKEND ──────────────────────────────────────────────────
+  backend:
+    build: .
+    container_name: proacademic_backend
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/proacademic_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Passc0de*
+    networks:
+      - proacademic_net
+
+  # ── SONARQUBE ────────────────────────────────────────────────
+  sonarqube:
+    image: sonarqube:10.4-community
+    container_name: proacademic_sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    networks:
+      - proacademic_net
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
+
+networks:
+  proacademic_net:
+    driver: bridge

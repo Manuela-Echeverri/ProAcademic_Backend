@@ -1,6 +1,7 @@
 package com.proacademic.Infraestructura.Persistencia.Entidad;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuarios")
@@ -8,79 +9,64 @@ public class UsuarioEntidad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String nombre;
+
+    @Column(nullable = false, length = 100)
     private String apellido;
+
+    @Column(unique = true, nullable = false, length = 150)
     private String correo;
+
+    @Column(unique = true, nullable = false, length = 100)
     private String usuario;
+
+    @Column(nullable = false, length = 255)
     private String contrasena;
-    private String rol;
 
-    public UsuarioEntidad() {
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Rol rol;
+
+    @Column(name = "fecha_creacion", updatable = false)
+    private LocalDateTime fechaCreacion;
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaCreacion = LocalDateTime.now();
     }
 
-    // ID
-    public Long getId() {
-        return id;
+    public enum Rol {
+        ADMIN, DOCENTE, ESTUDIANTE
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public UsuarioEntidad() {}
 
-    // NOMBRE
-    public String getNombre() {
-        return nombre;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    // APELLIDO
-    public String getApellido() {
-        return apellido;
-    }
+    public String getApellido() { return apellido; }
+    public void setApellido(String apellido) { this.apellido = apellido; }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
 
-    // CORREO
-    public String getCorreo() {
-        return correo;
-    }
+    public String getUsuario() { return usuario; }
+    public void setUsuario(String usuario) { this.usuario = usuario; }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
+    public String getContrasena() { return contrasena; }
+    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
 
-    // USUARIO
-    public String getUsuario() {
-        return usuario;
-    }
+    public Rol getRol() { return rol; }
+    public void setRol(Rol rol) { this.rol = rol; }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    // CONTRASEÑA
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    // ROL
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
+    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
+    public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
 }

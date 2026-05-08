@@ -9,7 +9,7 @@ public class UsuarioDTO {
     @Schema(description = "Nombre", example = "María")
     private String nombre;
 
-    @Schema(description = "Apellido", example = "González")
+    @Schema(description = "Apellido", example  = "González")
     private String apellido;
 
     @Schema(description = "Correo electrónico", example = "maria@proacademic.com")

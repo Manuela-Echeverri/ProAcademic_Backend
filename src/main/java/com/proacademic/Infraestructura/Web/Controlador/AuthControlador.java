@@ -1,9 +1,8 @@
 package com.proacademic.Infraestructura.Web.Controlador;
 
 import com.proacademic.Aplicacion.Servicios.LogInServicio;
-import com.proacademic.Dominio.Modelo.Usuario;
 import com.proacademic.Infraestructura.Web.DTO.LogInSolicitud;
-import com.proacademic.Infraestructura.Web.DTO.UsuarioRespuesta;
+import com.proacademic.Infraestructura.Web.DTO.SesionRespuesta;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,7 +24,7 @@ public class AuthControlador {
     }
 
     @Operation(summary = "Iniciar sesión",
-            description = "Autentica al usuario con correo y contraseña")
+            description = "Autentica al usuario y devuelve un token JWT")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Login exitoso"),
             @ApiResponse(responseCode = "401", description = "Credenciales incorrectas")
@@ -33,11 +32,11 @@ public class AuthControlador {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LogInSolicitud solicitud) {
         try {
-            Usuario usuario = logInServicio.autenticar(
+            SesionRespuesta sesion = logInServicio.autenticar(
                     solicitud.getCorreo(),
                     solicitud.getContrasena()
             );
-            return ResponseEntity.ok(UsuarioRespuesta.fromDomain(usuario));
+            return ResponseEntity.ok(sesion);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("{\"error\": \"" + e.getMessage() + "\"}");

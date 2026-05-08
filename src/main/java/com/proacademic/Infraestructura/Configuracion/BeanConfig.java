@@ -1,8 +1,10 @@
 package com.proacademic.Infraestructura.Configuracion;
 
 import com.proacademic.Aplicacion.Servicios.CrearUsuarioServicio;
+import com.proacademic.Aplicacion.Servicios.GestionarMateriaServicio;
 import com.proacademic.Aplicacion.Servicios.GestionarUsuarioServicio;
 import com.proacademic.Aplicacion.Servicios.LogInServicio;
+import com.proacademic.Dominio.Puertos.Salida.MateriaRepositorio;
 import com.proacademic.Dominio.Puertos.Salida.UsuarioRepositorio;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +27,13 @@ public class BeanConfig {
 
     @Bean
     public LogInServicio logInServicio(UsuarioRepositorio repo,
-                                       PasswordEncoder passwordEncoder) {
-        return new LogInServicio(repo, passwordEncoder);
+                                       PasswordEncoder passwordEncoder,
+                                       JwtServicio jwtServicio) {
+        return new LogInServicio(repo, passwordEncoder, jwtServicio);
+    }
+
+    @Bean
+    public GestionarMateriaServicio gestionarMateriaServicio(MateriaRepositorio repo) {
+        return new GestionarMateriaServicio(repo);
     }
 }
